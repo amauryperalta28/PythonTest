@@ -32,17 +32,26 @@ class CalculadorFechaInversion:
     def calcular_fecha_inversion(self, producto: Producto, solicitud: CalculadoraInversionRequest):
         SABADO = 5
         DOMINGO = 6
+        
         dias = CalculadoraDiasSumaIniciarInversion.calcula_dias(
             producto, solicitud)
         
-        fecha_inversion = solicitud.fechaCreacion + timedelta(days=dias)
+        fecha_inicio_inversion = solicitud.fechaCreacion + timedelta(days=dias)
+        fecha_inversion_final = solicitud.fechaCreacion
         
-        if fecha_inversion.weekday() == SABADO:
-          return solicitud.fechaCreacion + timedelta(days=dias) + timedelta(days= 2)  + timedelta(days= solicitud.plazo)
-        elif fecha_inversion.weekday() == DOMINGO:
-          return solicitud.fechaCreacion + timedelta(days=dias) + timedelta(days= 1)  + timedelta(days= solicitud.plazo)
+        if fecha_inicio_inversion.weekday() == SABADO:
+          fecha_inversion_final = solicitud.fechaCreacion + timedelta(days=dias) + timedelta(days= 2)  + timedelta(days= solicitud.plazo)
+        elif fecha_inicio_inversion.weekday() == DOMINGO:
+          fecha_inversion_final = solicitud.fechaCreacion + timedelta(days=dias) + timedelta(days= 1)  + timedelta(days= solicitud.plazo)
         else:
-          return solicitud.fechaCreacion + timedelta(days=dias) + timedelta(days=solicitud.plazo)
+          fecha_inversion_final = solicitud.fechaCreacion + timedelta(days=dias) + timedelta(days=solicitud.plazo)
+          
+        
+        if fecha_inversion_final.weekday() == SABADO:
+            fecha_inversion_final = fecha_inversion_final + timedelta(days=2)
+          
+        return fecha_inversion_final
+   
 
 
 class CalculadoraDiasSumaIniciarInversion:
