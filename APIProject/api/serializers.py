@@ -1,15 +1,14 @@
 from rest_framework import serializers
-from .classes import MyResponse
 
 
-class MyRequestSerializer(serializers.Serializer):
+class CalculadoraInversionRequestSerializer(serializers.Serializer):
     producto = serializers.CharField()
     enReinversion = serializers.BooleanField()
     plazo = serializers.IntegerField()
-    fechaCreacion = serializers.CharField()
+    fechaCreacion = serializers.DateField()
 
 
-class MyResponseSerializer(serializers.Serializer):
+class CalculadoraInversionResponseSerializer(serializers.Serializer):
     producto = serializers.IntegerField()
     plazo = serializers.IntegerField()
     fechaInicio = serializers.DateField()
