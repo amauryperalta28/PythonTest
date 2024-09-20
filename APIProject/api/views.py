@@ -8,6 +8,14 @@ from django.utils.dateparse import parse_date
 
 # Create your views here.
 
+from rest_framework.generics import ListAPIView
+from .models import Producto
+from .serializers import ProductoSerializer
+
+class ProductoListView(ListAPIView):
+    queryset = Producto.objects.all()
+    serializer_class = ProductoSerializer
+
 class CustomObjectView(APIView):
     def get(self, request):
         serializer = CalculadoraInversionRequestSerializer(data = request.query_params)

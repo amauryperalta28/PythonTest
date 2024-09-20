@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from .models import Producto
 
 
 class CalculadoraInversionRequestSerializer(serializers.Serializer):
@@ -14,3 +15,10 @@ class CalculadoraInversionResponseSerializer(serializers.Serializer):
     fechaInicio = serializers.DateField()
     fechaFin = serializers.DateField()
     plazoReal = serializers.IntegerField()
+
+
+class ProductoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Producto
+        fields = ['id', 'dias_fecha_previa_igual', 'dias_fecha_previa_igual_con_reinversion', 'dias_horario_posterior_igual', 'dias_horario_posterior_igual_con_reinversion']
+
