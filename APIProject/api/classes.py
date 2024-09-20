@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class MyResponse:
@@ -11,53 +11,52 @@ class MyResponse:
 
 
 class CalculadoraInversionRequest:
-    def __init__(self, producto, enReinversion, plazo, fechaCreacion: datetime):
+    def __init__(self, producto, en_reinversion, plazo, fecha_creacion: datetime):
         self.producto = producto
-        self.enReinversion = enReinversion
+        self.enReinversion = en_reinversion
         self.plazo = plazo
-        self.fechaCreacion = fechaCreacion
+        self.fechaCreacion = fecha_creacion
 
 
 class Producto:
-    def __init__(self, id, diasFechaPreviaIgual, diasFechaPreviaIgualConReinversion, diasHorarioPosteriorIgual, diasHorarioPosteriorIgualConReinversion):
+    def __init__(self, id, dias_fecha_previa_igual, dias_fecha_previa_igual_con_reinversion, dias_horario_posterior_igual, dias_horario_posterior_igual_con_reinversion):
         self.id = id
-        self.diasFechaPreviaIgual = diasFechaPreviaIgual
-        self.diasFechaPreviaIgualConReinversion = diasFechaPreviaIgualConReinversion
-        self.diasHorarioPosteriorIgual = diasHorarioPosteriorIgual
-        self.diasHorarioPosteriorIgualConReinversion = diasHorarioPosteriorIgualConReinversion
+        self.dias_fecha_previa_igual = dias_fecha_previa_igual
+        self.dias_fecha_previa_igual_con_reinversion = dias_fecha_previa_igual_con_reinversion
+        self.dias_horario_posterior_igual = dias_horario_posterior_igual
+        self.dias_horario_posterior_igual_con_reinversion = dias_horario_posterior_igual_con_reinversion
 
 
-# class CalculadorFechaInversion:
+class CalculadorFechaInversion:
 
-#     def calcula_fecha_inversion(producto: Producto, solicitud: CalculadoraInversionRequest):
-#         horarioOperativo = datetime(
-#             solicitud.fechaCreacion.year, solicitud.fechaCreacion.month, solicitud.fechaCreacion.day, 10, 30, 0)
-#         fechaCreacion = datetime(
-#             solicitud.fechaCreacion.year, solicitud.fechaCreacion.month, solicitud.fechaCreacion.day, solicitud.fechaCreacion.hour, solicitud.fechaCreacion.minute, solicitud.fechaCreacion.second)
+    def calcula_fecha_inversion(self, producto: Producto, solicitud: CalculadoraInversionRequest):
+        dias = CalculadoraDiasSumaIniciarInversion.calcula_dias(
+            producto, solicitud)
+        fecha_inversion = solicitud.fechaCreacion + timedelta(days=dias + solicitud.plazo)
+        
+        return fecha_inversion
 
-#         if fechaCreacion <= horarioOperativo:
-#             diasAjuste = producto.diasFechaPreviaIgual
-
-#         return ''
 
 class CalculadoraDiasSumaIniciarInversion:
     def calcula_dias(producto: Producto, solicitud: CalculadoraInversionRequest):
-        horarioOperativo = datetime(
+        horario_operativo = datetime(
             solicitud.fechaCreacion.year, solicitud.fechaCreacion.month, solicitud.fechaCreacion.day, 10, 30, 0)
-        fechaCreacion = datetime(
+        fecha_creacion = datetime(
             solicitud.fechaCreacion.year, solicitud.fechaCreacion.month, solicitud.fechaCreacion.day, solicitud.fechaCreacion.hour, solicitud.fechaCreacion.minute, solicitud.fechaCreacion.second)
 
         if solicitud.enReinversion:
 
-          if fechaCreacion <= horarioOperativo:
-            return producto.diasFechaPreviaIgualConReinversion
-          else:
-            return 0
+            if fecha_creacion <= horario_operativo:
+                return producto.dias_fecha_previa_igual_con_reinversion
+            elif fecha_creacion >= horario_operativo:
+                return producto.dias_horario_posterior_igual_con_reinversion
+            else:
+                return 0
 
         else:
-           if fechaCreacion <= horarioOperativo:
-            return producto.diasFechaPreviaIgual
-           else:
-            return 0
-          
-      
+            if fecha_creacion <= horario_operativo:
+                return producto.dias_fecha_previa_igual
+            elif fecha_creacion >= horario_operativo:
+                return producto.dias_horario_posterior_igual
+            else:
+                return 0
