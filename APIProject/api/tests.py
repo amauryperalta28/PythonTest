@@ -67,16 +67,43 @@ class CalculadorDiasSumaIniciarInversionTests(TestCase):
 
 
 class CalculadorFechaInversionTests(TestCase):
-    def test_calcula_fecha_inversion_debe_sumar_dias_inicio_inversion_mas_plazo(self):
+    def test_calcular_fecha_inversion_debe_sumar_dias_inicio_inversion_mas_plazo(self):
 
         # Arrange
         producto1 = Producto(1, 2, 1, 3, 2)
         request = CalculadoraInversionRequest(1, False, 5, datetime(2022, 7, 12, 9, 0, 0))
 
         # Act
-        fecha = CalculadorFechaInversion().calcula_fecha_inversion(producto1, request)
+        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request)
         
         # Assert
-        self.assertEqual(fecha.day, request.fechaCreacion.day + request.plazo + producto1.dias_fecha_previa_igual)
+        self.assertEqual(fecha.day, request.fechaCreacion.day + producto1.dias_fecha_previa_igual  + request.plazo)
         
+    def test_calcular_fecha_inversion_fecha_inicio_mas_dias_inicio_cae_sabado_debe_sumar_dias_hasta_proximo_dia_laboral_mas_plazo(self):
+
+        # Arrange
+        producto1 = Producto(1, 2, 1, 3, 2)
+        request = CalculadoraInversionRequest(1, False, 5, datetime(2024, 9, 19, 9, 0, 0))
+        dias_sumar_sabado = 2
+
+        # Act
+        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request)
+        
+        # Assert
+        self.assertEqual(fecha.day, request.fechaCreacion.day + producto1.dias_fecha_previa_igual + dias_sumar_sabado  + request.plazo)
+        
+        
+    def test_calcular_fecha_inversion_fecha_inicio_mas_dias_inicio_cae_domingo_debe_sumar_dias_hasta_proximo_dia_laboral_mas_plazo(self):
+
+        # Arrange
+        producto1 = Producto(1, 2, 1, 3, 2)
+        request = CalculadoraInversionRequest(1, False, 5, datetime(2024, 9, 20, 9, 0, 0))
+        dias_sumar_domingo = 1
+
+        # Act
+        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request)
+        
+        # Assert
+        self.assertEqual(fecha.day, request.fechaCreacion.day + producto1.dias_fecha_previa_igual + dias_sumar_domingo  + request.plazo)
+    
         

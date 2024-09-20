@@ -38,13 +38,11 @@ class CalculadorFechaInversion:
         fecha_inversion = solicitud.fechaCreacion + timedelta(days=dias)
         
         if fecha_inversion.weekday() == SABADO:
-          fecha_inversion = solicitud.fechaCreacion + timedelta(days=dias) + timedelta(days= 2)  + timedelta(days= solicitud.plazo)
+          return solicitud.fechaCreacion + timedelta(days=dias) + timedelta(days= 2)  + timedelta(days= solicitud.plazo)
         elif fecha_inversion.weekday() == DOMINGO:
-          fecha_inversion = solicitud.fechaCreacion + timedelta(days=dias) + timedelta(days= 1)  + timedelta(days= solicitud.plazo)
+          return solicitud.fechaCreacion + timedelta(days=dias) + timedelta(days= 1)  + timedelta(days= solicitud.plazo)
         else:
-          fecha_inversion = fecha_inversion + timedelta(days=solicitud.plazo)
-        
-        return fecha_inversion
+          return solicitud.fechaCreacion + timedelta(days=dias) + timedelta(days=solicitud.plazo)
 
 
 class CalculadoraDiasSumaIniciarInversion:
