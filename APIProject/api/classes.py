@@ -49,6 +49,8 @@ class CalculadorFechaInversion:
         
         if fecha_inversion_final.weekday() == SABADO:
             fecha_inversion_final = fecha_inversion_final + timedelta(days=2)
+        elif fecha_inversion_final.weekday() == DOMINGO:
+            fecha_inversion_final = fecha_inversion_final + timedelta(days=1)
           
         return fecha_inversion_final
    

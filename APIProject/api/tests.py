@@ -121,5 +121,20 @@ class CalculadorFechaInversionTests(TestCase):
         dias_a_sumar = producto1.dias_fecha_previa_igual + dias_sumar_sabado  + request.plazo + dias_sumar_sabado
         # Assert
         self.assertEqual(fecha, request.fechaCreacion + timedelta(dias_a_sumar))
+        
+    def test_calcular_fecha_inversion_fecha_fin_mas_plazo_cae_domingo_debe_sumar_dias_hasta_proximo_dia_laboral(self):
+
+        # Arrange
+        producto1 = Producto(1, 2, 1, 3, 2)
+        request = CalculadoraInversionRequest(1, False, 6, datetime(2024, 9, 19, 9, 0, 0))
+        dias_sumar_sabado = 2
+        dias_a_sumar_domingo = 1
+
+        # Act
+        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request)
+        
+        dias_a_sumar = producto1.dias_fecha_previa_igual + dias_sumar_sabado  + request.plazo + dias_a_sumar_domingo
+        # Assert
+        self.assertEqual(fecha, request.fechaCreacion + timedelta(dias_a_sumar))
     
         
