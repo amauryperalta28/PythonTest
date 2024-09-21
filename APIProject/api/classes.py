@@ -45,14 +45,13 @@ class CalculadorFechaInversion:
           fecha_inversion_final = solicitud.fechaCreacion + timedelta(days=dias) + timedelta(days= 1)  + timedelta(days= solicitud.plazo)
         else:
           fecha_inversion_final = solicitud.fechaCreacion + timedelta(days=dias) + timedelta(days=solicitud.plazo)
-
-        dia_encontrado = DiaFeriado.objects.filter(fecha=fecha_inversion_final.strftime('%Y-%m-%d')).first()
         
         if fecha_inversion_final.weekday() == SABADO:
             fecha_inversion_final = fecha_inversion_final + timedelta(days=2)
         elif fecha_inversion_final.weekday() == DOMINGO:
             fecha_inversion_final = fecha_inversion_final + timedelta(days=1)
-        elif dia_encontrado:
+            
+        while DiaFeriado.objects.filter(fecha=fecha_inversion_final.strftime('%Y-%m-%d')).first():
             fecha_inversion_final = fecha_inversion_final + timedelta(days=1)
         
           

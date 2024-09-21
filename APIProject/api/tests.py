@@ -152,5 +152,23 @@ class CalculadorFechaInversionTests(TestCase):
         dias_a_sumar = producto1.dias_fecha_previa_igual  + request.plazo + dia_festivo_las_mercedes
         # Assert
         self.assertEqual(fecha, request.fechaCreacion + timedelta(days= dias_a_sumar) )
+        
+    def test_calcular_fecha_inversion_fecha_fin_mas_plazo_cae_dia_feriado_dos_veces_debe_sumar_dias_hasta_proximo_dia_laboral(self):
+
+        # Arrange
+        producto1 = Producto(1, 2, 1, 3, 2)
+        request = CalculadoraInversionRequest(1, False, 6, datetime(2024, 9, 16, 9, 0, 0))
+        dia_festivo_las_mercedes = 1
+        dia_feriado_random = 1
+        
+        dia_feriado = DiaFeriado.objects.create(fecha='2024-09-24', descripcion='Día de las Mercedes')
+        dia_feriado2 = DiaFeriado.objects.create(fecha='2024-09-25', descripcion='Día feriado random')
+
+        # Act
+        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request, [dia_feriado, dia_feriado2])
+        
+        dias_a_sumar = producto1.dias_fecha_previa_igual  + request.plazo + dia_festivo_las_mercedes + dia_feriado_random
+        # Assert
+        self.assertEqual(fecha, request.fechaCreacion + timedelta(days= dias_a_sumar) )
     
         
