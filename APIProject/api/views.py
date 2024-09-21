@@ -3,12 +3,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
 from .serializers import CalculadoraInversionResponseSerializer, CalculadoraInversionRequestSerializer
-from .classes import MyResponse, Producto
+from .classes import MyResponse, Producto, CalculadoraInversionRequest, CalculadorFechaInversion, CalculadoraFechaInversionResult
 from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
 from .serializers import UserSerializer
+from datetime import datetime
+from .models import DiaFeriado
 
 # Create your views here.
 
@@ -27,26 +29,27 @@ class CustomObjectView(APIView):
     def get(self, request):
         serializer = CalculadoraInversionRequestSerializer(data = request.query_params)
         serializer.is_valid(raise_exception=True)
-        requestData = serializer.validated_data
+        request_data = serializer.validated_data
         
-        producto = requestData['producto']
-        enReinversion = requestData['enReinversion']
-        plazo = requestData['plazo']
-        fecha_creacion = requestData['fechaCreacion']
+        producto:int = request_data['producto']
+        en_reinversion:bool = request_data['enReinversion']
+        plazo:int = request_data['plazo']
+        fecha_creacion:str = request_data['fechaCreacion']
         
-        producto1 = Producto(1,2,1,3,2)
+        fecha_creacion_datetime = datetime.strptime(fecha_creacion, '%Y-%m-%d %H:%M:%S')
         
+        producto1 = Producto(1, 2, 1, 3, 2)
+        request = CalculadoraInversionRequest(producto, en_reinversion, plazo, fecha_creacion_datetime)
+        resultado: CalculadoraFechaInversionResult = CalculadorFechaInversion.calcular_fecha_inversion(producto1, request)
         custom_data = MyResponse(
-            1, 
-            33, 
-            "2022-07-14 00:00:00", 
-            "2022-08-17 00:00:00", 
-            34)
+            producto, 
+            request.plazo, 
+            resultado.fecha_inicio.strftime('%Y-%m-%d'), 
+            resultado.fecha_fin.strftime('%Y-%m-%d'), 
+            resultado.plazo)
 
-        # Serialize the data
         response_serializer = CalculadoraInversionResponseSerializer(custom_data)
 
-        # Return the serialized data as a response
         return Response(response_serializer.data)
 
 @api_view(['POST'])

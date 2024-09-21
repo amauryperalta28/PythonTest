@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .classes import CalculadoraDiasSumaIniciarInversion, Producto, CalculadoraInversionRequest, CalculadorFechaInversion
+from .classes import CalculadoraDiasSumaIniciarInversion, Producto, CalculadoraInversionRequest, CalculadorFechaInversion, CalculadoraFechaInversionResult
 from datetime import datetime,timedelta, date
 from .models import DiaFeriado
 
@@ -82,7 +82,7 @@ class CalculadorFechaInversionTests(TestCase):
         fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request)
         dias_a_sumar = producto1.dias_fecha_previa_igual  + request.plazo
         # Assert
-        self.assertEqual(fecha, request.fechaCreacion + timedelta(days=dias_a_sumar))
+        self.assertEqual(fecha.fecha_fin, request.fechaCreacion + timedelta(days=dias_a_sumar))
         
     def test_calcular_fecha_inversion_fecha_inicio_mas_dias_inicio_cae_sabado_debe_sumar_dias_hasta_proximo_dia_laboral_mas_plazo(self):
 
@@ -94,7 +94,7 @@ class CalculadorFechaInversionTests(TestCase):
         fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request)
         dias_a_sumar = producto1.dias_fecha_previa_igual + self.dias_sumar_sabado  + request.plazo
         # Assert
-        self.assertEqual(fecha, request.fechaCreacion + timedelta(days=dias_a_sumar) )
+        self.assertEqual(fecha.fecha_fin, request.fechaCreacion + timedelta(days=dias_a_sumar) )
         
         
     def test_calcular_fecha_inversion_fecha_inicio_mas_dias_inicio_cae_domingo_debe_sumar_dias_hasta_proximo_dia_laboral_mas_plazo(self):
@@ -109,7 +109,7 @@ class CalculadorFechaInversionTests(TestCase):
         dias_a_sumar = producto1.dias_fecha_previa_igual + self.dias_sumar_domingo  + request.plazo
         
         # Assert
-        self.assertEqual(fecha, request.fechaCreacion + timedelta(days=dias_a_sumar) )
+        self.assertEqual(fecha.fecha_fin, request.fechaCreacion + timedelta(days=dias_a_sumar) )
         
     def test_calcular_fecha_inversion_fecha_fin_mas_plazo_cae_sabado_debe_sumar_dias_hasta_proximo_dia_laboral(self):
 
@@ -122,7 +122,7 @@ class CalculadorFechaInversionTests(TestCase):
         
         dias_a_sumar = producto1.dias_fecha_previa_igual + self.dias_sumar_sabado  + request.plazo + self.dias_sumar_sabado
         # Assert
-        self.assertEqual(fecha, request.fechaCreacion + timedelta(dias_a_sumar))
+        self.assertEqual(fecha.fecha_fin, request.fechaCreacion + timedelta(dias_a_sumar))
         
     def test_calcular_fecha_inversion_fecha_fin_mas_plazo_cae_domingo_debe_sumar_dias_hasta_proximo_dia_laboral(self):
 
@@ -135,7 +135,7 @@ class CalculadorFechaInversionTests(TestCase):
         
         dias_a_sumar = producto1.dias_fecha_previa_igual + self.dias_sumar_sabado  + request.plazo + self.dias_sumar_domingo
         # Assert
-        self.assertEqual(fecha, request.fechaCreacion + timedelta(dias_a_sumar))
+        self.assertEqual(fecha.fecha_fin, request.fechaCreacion + timedelta(dias_a_sumar))
         
     def test_calcular_fecha_inversion_fecha_fin_mas_plazo_cae_dia_feriado_debe_sumar_dias_hasta_proximo_dia_laboral(self):
 
@@ -151,7 +151,7 @@ class CalculadorFechaInversionTests(TestCase):
         
         dias_a_sumar = producto1.dias_fecha_previa_igual  + request.plazo + dia_festivo_las_mercedes
         # Assert
-        self.assertEqual(fecha, request.fechaCreacion + timedelta(days= dias_a_sumar) )
+        self.assertEqual(fecha.fecha_fin, request.fechaCreacion + timedelta(days= dias_a_sumar) )
         
     def test_calcular_fecha_inversion_fecha_fin_mas_plazo_cae_dia_feriado_dos_veces_debe_sumar_dias_hasta_proximo_dia_laboral(self):
 
@@ -169,6 +169,6 @@ class CalculadorFechaInversionTests(TestCase):
         
         dias_a_sumar = producto1.dias_fecha_previa_igual  + request.plazo + dia_festivo_las_mercedes + dia_feriado_random
         # Assert
-        self.assertEqual(fecha, request.fechaCreacion + timedelta(days= dias_a_sumar) )
+        self.assertEqual(fecha.fecha_fin, request.fechaCreacion + timedelta(days= dias_a_sumar) )
     
         

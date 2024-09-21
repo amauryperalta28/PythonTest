@@ -20,7 +20,7 @@ class CalculadoraInversionRequestSerializer(serializers.Serializer):
     producto = serializers.CharField()
     enReinversion = serializers.BooleanField()
     plazo = serializers.IntegerField()
-    fechaCreacion = serializers.DateField()
+    fechaCreacion = serializers.CharField()
 
 
 class CalculadoraInversionResponseSerializer(serializers.Serializer):

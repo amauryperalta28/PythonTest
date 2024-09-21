@@ -29,9 +29,11 @@ class Producto:
 
 class CalculadorFechaInversion:
 
-    def calcular_fecha_inversion(self, producto: Producto, solicitud: CalculadoraInversionRequest):
+    def calcular_fecha_inversion(producto: Producto, solicitud: CalculadoraInversionRequest):
         SABADO = 5
         DOMINGO = 6
+        
+        plazo = solicitud.plazo
         
         dias = CalculadoraDiasSumaIniciarInversion.calcula_dias(
             producto, solicitud)
@@ -44,8 +46,9 @@ class CalculadorFechaInversion:
             
         while fecha_inversion_final.weekday() == SABADO or fecha_inversion_final.weekday() == DOMINGO or  DiaFeriado.objects.filter(fecha=fecha_inversion_final.strftime('%Y-%m-%d')).first():
             fecha_inversion_final = fecha_inversion_final + timedelta(days=1)
+            plazo = plazo + 1
           
-        return fecha_inversion_final
+        return CalculadoraFechaInversionResult(fecha_inicio_inversion, fecha_inversion_final, plazo)  
    
 
 
@@ -72,3 +75,12 @@ class CalculadoraDiasSumaIniciarInversion:
                 return producto.dias_horario_posterior_igual
             else:
                 return 0
+
+class CalculadoraFechaInversionResult:
+   def __init__(self, fecha_inicio:datetime, fecha_fin:datetime, plazo:int):
+        self.fecha_inicio = fecha_inicio
+        self.fecha_fin = fecha_fin
+        self.plazo = plazo
+        
+        
+        
