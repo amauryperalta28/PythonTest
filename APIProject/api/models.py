@@ -12,3 +12,9 @@ class Producto(models.Model):
 
     def __str__(self):
         return f"Producto {self.id}"
+    
+class DiaFeriado(models.Model):
+    fecha = models.DateField(unique=True)
+
+    def __str__(self):
+        return self.fecha.strftime('%Y-%m-%d')
