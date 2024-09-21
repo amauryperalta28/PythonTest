@@ -19,6 +19,7 @@ from .serializers import ProductoSerializer
 
 class ProductoListView(ListAPIView):
     queryset = Producto.objects.all()
+ 
     serializer_class = ProductoSerializer
     permission_classes = [IsAuthenticated]
 
