@@ -3,21 +3,18 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
 from .serializers import CalculadoraInversionResponseSerializer, CalculadoraInversionRequestSerializer
-from .classes import MyResponse, Producto, CalculadoraInversionRequest, CalculadorFechaInversion, CalculadoraFechaInversionResult
+from .classes import MyResponse, ProductoDto, CalculadoraInversionRequest, CalculadorFechaInversion, CalculadoraFechaInversionResult
 from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.models import User
 from .serializers import UserSerializer
 from datetime import datetime
-from .models import DiaFeriado
-
-# Create your views here.
-
 from rest_framework.generics import ListAPIView
 from .models import Producto
 from .serializers import ProductoSerializer
 
+# Create your views here.
 
 class ProductoListView(ListAPIView):
     queryset = Producto.objects.all()
@@ -38,9 +35,19 @@ class CustomObjectView(APIView):
         
         fecha_creacion_datetime = datetime.strptime(fecha_creacion, '%Y-%m-%d %H:%M:%S')
         
-        producto1 = Producto(1, 2, 1, 3, 2)
+        producto_db: Producto = Producto.objects.filter(id=producto).first()
+        
+        if not producto_db:
+            return Response({'error': 'Producto no existe'}, status=status.HTTP_404_NOT_FOUND )
+       
+        producto1 = ProductoDto(producto, 
+                                producto_db.dias_fecha_previa_igual, 
+                                producto_db.dias_fecha_previa_igual_con_reinversion, 
+                                producto_db.dias_horario_posterior_igual, 
+                                producto_db.dias_horario_posterior_igual_con_reinversion)
+        
         request = CalculadoraInversionRequest(producto, en_reinversion, plazo, fecha_creacion_datetime)
-        resultado: CalculadoraFechaInversionResult = CalculadorFechaInversion.calcular_fecha_inversion(producto1, request)
+        resultado: CalculadoraFechaInversionResult = CalculadorFechaInversion.calcular_fecha_inversion(None, producto1, request)
         custom_data = MyResponse(
             producto, 
             request.plazo, 

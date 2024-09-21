@@ -18,7 +18,7 @@ class CalculadoraInversionRequest:
         self.fechaCreacion = fecha_creacion
 
 
-class Producto:
+class ProductoDto:
     def __init__(self, id, dias_fecha_previa_igual, dias_fecha_previa_igual_con_reinversion, dias_horario_posterior_igual, dias_horario_posterior_igual_con_reinversion):
         self.id = id
         self.dias_fecha_previa_igual = dias_fecha_previa_igual
@@ -29,7 +29,7 @@ class Producto:
 
 class CalculadorFechaInversion:
 
-    def calcular_fecha_inversion(producto: Producto, solicitud: CalculadoraInversionRequest):
+    def calcular_fecha_inversion(self, producto: ProductoDto, solicitud: CalculadoraInversionRequest):
         SABADO = 5
         DOMINGO = 6
         
@@ -53,7 +53,7 @@ class CalculadorFechaInversion:
 
 
 class CalculadoraDiasSumaIniciarInversion:
-    def calcula_dias(producto: Producto, solicitud: CalculadoraInversionRequest):
+    def calcula_dias(producto: ProductoDto, solicitud: CalculadoraInversionRequest):
         horario_operativo = datetime(
             solicitud.fechaCreacion.year, solicitud.fechaCreacion.month, solicitud.fechaCreacion.day, 10, 30, 0)
         fecha_creacion = datetime(

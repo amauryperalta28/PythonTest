@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .classes import CalculadoraDiasSumaIniciarInversion, Producto, CalculadoraInversionRequest, CalculadorFechaInversion, CalculadoraFechaInversionResult
+from .classes import CalculadoraDiasSumaIniciarInversion, ProductoDto, CalculadoraInversionRequest, CalculadorFechaInversion, CalculadoraFechaInversionResult
 from datetime import datetime,timedelta, date
 from .models import DiaFeriado
 
@@ -12,7 +12,7 @@ class CalculadorDiasSumaIniciarInversionTests(TestCase):
     def test_calcula_dias_fecha_creacion_menor_o_igual_horario_inicializar_dias_correcto(self):
 
         # Arrange
-        producto1 = Producto(1, 2, 1, 3, 2)
+        producto1 = ProductoDto(1, 2, 1, 3, 2)
         request = CalculadoraInversionRequest(
             1, False, 33, datetime(2022, 7, 12, 9, 0, 0))
 
@@ -26,7 +26,7 @@ class CalculadorDiasSumaIniciarInversionTests(TestCase):
     def test_calcula_dias_fecha_creacion_menor_o_igual_con_reinversion_horario_inicializar_dias_correcto(self):
 
         # Arrange
-        producto1 = Producto(1, 2, 1, 3, 2)
+        producto1 = ProductoDto(1, 2, 1, 3, 2)
         request = CalculadoraInversionRequest(
             1, True, 33, datetime(2022, 7, 12, 9, 0, 0))
 
@@ -41,7 +41,7 @@ class CalculadorDiasSumaIniciarInversionTests(TestCase):
     def test_calcula_dias_fecha_creacion_mayor_o_igual_horario_inicializar_dias_correcto(self):
 
         # Arrange
-        producto1 = Producto(1, 2, 1, 3, 2)
+        producto1 = ProductoDto(1, 2, 1, 3, 2)
         request = CalculadoraInversionRequest(
             1, False, 33, datetime(2022, 7, 12, 12, 30, 0))
 
@@ -55,7 +55,7 @@ class CalculadorDiasSumaIniciarInversionTests(TestCase):
     def test_calcula_dias_fecha_creacion_mayor_o_igual_con_reinversion_horario_inicializar_dias_correcto(self):
 
         # Arrange
-        producto1 = Producto(1, 2, 1, 3, 2)
+        producto1 = ProductoDto(1, 2, 1, 3, 2)
         request = CalculadoraInversionRequest(
             1, True, 33, datetime(2022, 7, 12, 13, 0, 0))
 
@@ -75,7 +75,7 @@ class CalculadorFechaInversionTests(TestCase):
     def test_calcular_fecha_inversion_debe_sumar_dias_inicio_inversion_mas_plazo(self):
 
         # Arrange
-        producto1 = Producto(1, 2, 1, 3, 2)
+        producto1 = ProductoDto(1, 2, 1, 3, 2)
         request = CalculadoraInversionRequest(1, False, 5, datetime(2022, 7, 12, 9, 0, 0))
 
         # Act
@@ -87,7 +87,7 @@ class CalculadorFechaInversionTests(TestCase):
     def test_calcular_fecha_inversion_fecha_inicio_mas_dias_inicio_cae_sabado_debe_sumar_dias_hasta_proximo_dia_laboral_mas_plazo(self):
 
         # Arrange
-        producto1 = Producto(1, 2, 1, 3, 2)
+        producto1 = ProductoDto(1, 2, 1, 3, 2)
         request = CalculadoraInversionRequest(1, False,3, datetime(2024, 9, 19, 9, 0, 0))
 
         # Act
@@ -100,7 +100,7 @@ class CalculadorFechaInversionTests(TestCase):
     def test_calcular_fecha_inversion_fecha_inicio_mas_dias_inicio_cae_domingo_debe_sumar_dias_hasta_proximo_dia_laboral_mas_plazo(self):
 
         # Arrange
-        producto1 = Producto(1, 2, 1, 3, 2)
+        producto1 = ProductoDto(1, 2, 1, 3, 2)
         request = CalculadoraInversionRequest(1, False, 3, datetime(2024, 9, 20, 9, 0, 0))
 
         # Act
@@ -114,7 +114,7 @@ class CalculadorFechaInversionTests(TestCase):
     def test_calcular_fecha_inversion_fecha_fin_mas_plazo_cae_sabado_debe_sumar_dias_hasta_proximo_dia_laboral(self):
 
         # Arrange
-        producto1 = Producto(1, 2, 1, 3, 2)
+        producto1 = ProductoDto(1, 2, 1, 3, 2)
         request = CalculadoraInversionRequest(1, False, 5, datetime(2024, 9, 19, 9, 0, 0))
 
         # Act
@@ -127,7 +127,7 @@ class CalculadorFechaInversionTests(TestCase):
     def test_calcular_fecha_inversion_fecha_fin_mas_plazo_cae_domingo_debe_sumar_dias_hasta_proximo_dia_laboral(self):
 
         # Arrange
-        producto1 = Producto(1, 2, 1, 3, 2)
+        producto1 = ProductoDto(1, 2, 1, 3, 2)
         request = CalculadoraInversionRequest(1, False, 6, datetime(2024, 9, 19, 9, 0, 0))
 
         # Act
@@ -140,7 +140,7 @@ class CalculadorFechaInversionTests(TestCase):
     def test_calcular_fecha_inversion_fecha_fin_mas_plazo_cae_dia_feriado_debe_sumar_dias_hasta_proximo_dia_laboral(self):
 
         # Arrange
-        producto1 = Producto(1, 2, 1, 3, 2)
+        producto1 = ProductoDto(1, 2, 1, 3, 2)
         request = CalculadoraInversionRequest(1, False, 6, datetime(2024, 9, 16, 9, 0, 0))
         dia_festivo_las_mercedes = 1
         
@@ -156,7 +156,7 @@ class CalculadorFechaInversionTests(TestCase):
     def test_calcular_fecha_inversion_fecha_fin_mas_plazo_cae_dia_feriado_dos_veces_debe_sumar_dias_hasta_proximo_dia_laboral(self):
 
         # Arrange
-        producto1 = Producto(1, 2, 1, 3, 2)
+        producto1 = ProductoDto(1, 2, 1, 3, 2)
         request = CalculadoraInversionRequest(1, False, 6, datetime(2024, 9, 16, 9, 0, 0))
         dia_festivo_las_mercedes = 1
         dia_feriado_random = 1

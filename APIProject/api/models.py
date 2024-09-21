@@ -1,8 +1,5 @@
 from django.db import models
 
-# Create your models here.
-from django.db import models
-
 class Producto(models.Model):
     id = models.AutoField(primary_key=True)
     dias_fecha_previa_igual = models.IntegerField()

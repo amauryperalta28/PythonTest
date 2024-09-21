@@ -14,5 +14,5 @@ class ProductoAdmin(admin.ModelAdmin):
 class DiaFeriadoAdmin(admin.ModelAdmin):
     list_display = ('fecha','descripcion')
     search_fields = ('fecha','descripcion')
-    list_filter = ('fecha','descripcion')
+    list_filter = ('fecha', 'descripcion')
 
