@@ -1,10 +1,14 @@
-from django.shortcuts import render, HttpResponse
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
 from .serializers import CalculadoraInversionResponseSerializer, CalculadoraInversionRequestSerializer
 from .classes import MyResponse, Producto
-from django.utils.dateparse import parse_date
+from rest_framework import status
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.models import User
+from .serializers import UserSerializer
 
 # Create your views here.
 
@@ -41,3 +45,27 @@ class CustomObjectView(APIView):
 
         # Return the serialized data as a response
         return Response(response_serializer.data)
+
+@api_view(['POST'])
+def login_view(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    user = authenticate(username=username, password=password)
+
+    if user is not None:
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        })
+    else:
+        return Response({'error': 'Credenciales inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_data_view(request):
+    user = request.user
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
+    
+
