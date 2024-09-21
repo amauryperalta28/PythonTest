@@ -16,9 +16,11 @@ from rest_framework.generics import ListAPIView
 from .models import Producto
 from .serializers import ProductoSerializer
 
+
 class ProductoListView(ListAPIView):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
+    permission_classes = [IsAuthenticated]
 
 class CustomObjectView(APIView):
     def get(self, request):

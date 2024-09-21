@@ -12,7 +12,7 @@ class ProductoAdmin(admin.ModelAdmin):
     
 @admin.register(DiaFeriado)
 class DiaFeriadoAdmin(admin.ModelAdmin):
-    list_display = ('fecha',)
-    search_fields = ('fecha',)
-    list_filter = ('fecha',)
+    list_display = ('fecha','descripcion')
+    search_fields = ('fecha','descripcion')
+    list_filter = ('fecha','descripcion')
 

@@ -14,6 +14,7 @@ class Producto(models.Model):
         return f"Producto {self.id}"
     
 class DiaFeriado(models.Model):
+    descripcion = models.CharField(max_length=60, blank=False, null=False, default='Dia deriado')
     fecha = models.DateField(unique=True)
 
     def __str__(self):
