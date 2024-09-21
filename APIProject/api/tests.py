@@ -79,7 +79,7 @@ class CalculadorFechaInversionTests(TestCase):
         request = CalculadoraInversionRequest(1, False, 5, datetime(2022, 7, 12, 9, 0, 0))
 
         # Act
-        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request,[])
+        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request)
         dias_a_sumar = producto1.dias_fecha_previa_igual  + request.plazo
         # Assert
         self.assertEqual(fecha, request.fechaCreacion + timedelta(days=dias_a_sumar))
@@ -91,7 +91,7 @@ class CalculadorFechaInversionTests(TestCase):
         request = CalculadoraInversionRequest(1, False,3, datetime(2024, 9, 19, 9, 0, 0))
 
         # Act
-        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request, [])
+        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request)
         dias_a_sumar = producto1.dias_fecha_previa_igual + self.dias_sumar_sabado  + request.plazo
         # Assert
         self.assertEqual(fecha, request.fechaCreacion + timedelta(days=dias_a_sumar) )
@@ -104,7 +104,7 @@ class CalculadorFechaInversionTests(TestCase):
         request = CalculadoraInversionRequest(1, False, 3, datetime(2024, 9, 20, 9, 0, 0))
 
         # Act
-        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request, [])
+        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request)
         
         dias_a_sumar = producto1.dias_fecha_previa_igual + self.dias_sumar_domingo  + request.plazo
         
@@ -118,7 +118,7 @@ class CalculadorFechaInversionTests(TestCase):
         request = CalculadoraInversionRequest(1, False, 5, datetime(2024, 9, 19, 9, 0, 0))
 
         # Act
-        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request, [])
+        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request)
         
         dias_a_sumar = producto1.dias_fecha_previa_igual + self.dias_sumar_sabado  + request.plazo + self.dias_sumar_sabado
         # Assert
@@ -131,7 +131,7 @@ class CalculadorFechaInversionTests(TestCase):
         request = CalculadoraInversionRequest(1, False, 6, datetime(2024, 9, 19, 9, 0, 0))
 
         # Act
-        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request, [])
+        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request)
         
         dias_a_sumar = producto1.dias_fecha_previa_igual + self.dias_sumar_sabado  + request.plazo + self.dias_sumar_domingo
         # Assert
@@ -147,7 +147,7 @@ class CalculadorFechaInversionTests(TestCase):
         dia_feriado = DiaFeriado.objects.create(fecha='2024-09-24', descripcion='Día de las Mercedes')
 
         # Act
-        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request, [dia_feriado])
+        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request)
         
         dias_a_sumar = producto1.dias_fecha_previa_igual  + request.plazo + dia_festivo_las_mercedes
         # Assert
@@ -165,7 +165,7 @@ class CalculadorFechaInversionTests(TestCase):
         dia_feriado2 = DiaFeriado.objects.create(fecha='2024-09-25', descripcion='Día feriado random')
 
         # Act
-        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request, [dia_feriado, dia_feriado2])
+        fecha = CalculadorFechaInversion().calcular_fecha_inversion(producto1, request)
         
         dias_a_sumar = producto1.dias_fecha_previa_igual  + request.plazo + dia_festivo_las_mercedes + dia_feriado_random
         # Assert

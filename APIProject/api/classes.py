@@ -29,7 +29,7 @@ class Producto:
 
 class CalculadorFechaInversion:
 
-    def calcular_fecha_inversion(self, producto: Producto, solicitud: CalculadoraInversionRequest, dias_festivos: list[DiaFeriado] = []):
+    def calcular_fecha_inversion(self, producto: Producto, solicitud: CalculadoraInversionRequest):
         SABADO = 5
         DOMINGO = 6
         
