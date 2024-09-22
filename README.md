@@ -1,14 +1,7 @@
 # PythonTest
 
 
-## Requisitos Previos
-
-Asegúrate de tener instalado lo siguiente en tu sistema:
-
-- [Python 3.x](https://www.python.org/downloads/)
-- [pip](https://pip.pypa.io/en/stable/installation/)
-
-## Instalación
+## Instalación backend
 
 Sigue estos pasos para poner el proyecto en funcionamiento:
 
@@ -60,14 +53,21 @@ Sigue estos pasos para poner el proyecto en funcionamiento:
 
    ```
 
-7. Entrar en la carpeta Site que es el frontend
+## Como correr las pruebas
+Dentro de la carpeta **APIProject**, correr el comando
+```bash
+python manage.py test
+```
+
+## Instalacion frontend
+1. Entrar en la carpeta Site que es el frontend
    
-8. Instalar las dependencias
+2. Instalar las dependencias
 
    ```bash
    npm i
    ```
 
-9. Correr el frontend
+3. Correr el frontend
    ```bash
    npm start
