@@ -4,7 +4,7 @@ from .views import CustomObjectView, ProductoListView, login_view, user_data_vie
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
-    path('api/fechas-inversion/', CustomObjectView.as_view(), name='fechas-inversion'),
+    path('fechas-inversion/', CustomObjectView.as_view(), name='fechas-inversion'),
     path('productos/', ProductoListView.as_view(), name='producto-list'),
     path('login/', login_view, name='login'),
     path('user/', user_data_view, name='user-data'),

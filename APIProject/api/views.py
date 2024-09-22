@@ -24,6 +24,7 @@ class ProductoListView(ListAPIView):
 
 class CustomObjectView(APIView):
     def get(self, request):
+        
         serializer = CalculadoraInversionRequestSerializer(data = request.query_params)
         serializer.is_valid(raise_exception=True)
         request_data = serializer.validated_data
@@ -56,7 +57,7 @@ class CustomObjectView(APIView):
             resultado.plazo)
 
         response_serializer = CalculadoraInversionResponseSerializer(custom_data)
-
+  
         return Response(response_serializer.data)
 
 @api_view(['POST'])

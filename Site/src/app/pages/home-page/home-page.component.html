@@ -1,4 +1,4 @@
-<div class="home-container">
+<div class="container">
   <h2>Formulario de Productos</h2>
   <form (ngSubmit)="onSubmit()">
     <div class="form-group">
@@ -16,14 +16,14 @@
       </select>
     </div>
 
-    <div class="form-group">
+    <div class="mt-2 mb-2">
       <label for="enReinversion">En Reinvención</label>
       <input
         type="checkbox"
         id="enReinversion"
         [(ngModel)]="enReinversion"
         name="enReinversion"
-        class="form-control"
+        class=""
       />
     </div>
 
@@ -51,6 +51,6 @@
       />
     </div>
 
-    <button type="submit" class="btn btn-primary">Enviar</button>
+    <button type="submit" class="btn btn-primary mt-2">Enviar</button>
   </form>
 </div>
