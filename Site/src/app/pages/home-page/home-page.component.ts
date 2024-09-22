@@ -22,14 +22,8 @@ export class HomePageComponent{
       producto: this.selectedProducto,
       enReinversion: this.enReinversion.toString(),
       plazo: this.plazo,
-      fechaCreacion: this.fechaCreacion
+      fechaCreacion: this.fechaCreacion.replace('T', ' ') + ':00'
     }
-    // console.log({
-    //   producto: this.selectedProducto,
-    //   enReinversion: this.enReinversion,
-    //   plazo: this.plazo,
-    //   fechaCreacion: this.fechaCreacion,
-    // });
 
     this.calculo.calcularFechaInversion(request).subscribe((result)=>{
        console.log({result});

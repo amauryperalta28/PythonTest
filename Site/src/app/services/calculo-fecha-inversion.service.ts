@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {CalculoFechaRequest} from "../models/CalculoFechaRequest";
@@ -16,18 +16,23 @@ export class CalculoFechaInversionService {
 
   calcularFechaInversion(request: CalculoFechaRequest): Observable<void> {
     const headers = new HttpHeaders({
-      'producto': request.producto.toString(),
-      'plazo': request.plazo.toString(),
-      'fechaCreacion': request.fechaCreacion,
-       'enReinversion': request.enReinversion.toString(),
-      //'authorization': `Bearer ${this.auth.getToken()}`
+
+      'authorization': `Bearer ${this.auth.getToken()}`
     });
 
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append("producto", request.producto.toString())
+    queryParams = queryParams.append("plazo", request.plazo.toString())
+    queryParams = queryParams.append("fechaCreacion", request.fechaCreacion.toString())
+    queryParams = queryParams.append("enReinversion", request.enReinversion.toString())
+
+
     return this.http
-      .get<any>(this.calculoFechaInversionUrl, {headers})
+      .get<any>(this.calculoFechaInversionUrl, {params: queryParams})
       .pipe(
         map((response) => {
           console.log({response})
+          return response
         })
       );
   }
