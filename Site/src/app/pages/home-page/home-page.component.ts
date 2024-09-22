@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CalculoFechaInversionService} from "../../services/calculo-fecha-inversion.service";
 import {CalculoFechaRequest} from "../../models/CalculoFechaRequest";
+import {CalculoFechaResponse} from "../../models/CalculoFechaResponse";
 
 @Component({
   selector: 'app-home-page',
@@ -13,6 +14,8 @@ export class HomePageComponent{
   enReinversion = false;
   plazo = 33;
   fechaCreacion = "";
+
+  response:CalculoFechaResponse | null = null;
 
   constructor(private calculo: CalculoFechaInversionService) {
   }
@@ -27,6 +30,7 @@ export class HomePageComponent{
 
     this.calculo.calcularFechaInversion(request).subscribe((result)=>{
        console.log({result});
+       this.response = result;
     })
   }
 

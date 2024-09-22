@@ -52,5 +52,16 @@
     </div>
 
     <button type="submit" class="btn btn-primary mt-2">Enviar</button>
+
+    <h2 class="mt-2">Result</h2>
+
+    <div *ngIf="response; else noResult">
+      <p> {{ response | json }}</p>
+
+    </div>
+
+    <ng-template #noResult>
+      <p>No hay resultados</p>
+    </ng-template>
   </form>
 </div>

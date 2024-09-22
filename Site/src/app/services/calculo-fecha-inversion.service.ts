@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 import {CalculoFechaRequest} from "../models/CalculoFechaRequest";
 import {AuthService} from "./auth.service";
+import {CalculoFechaResponse} from "../models/CalculoFechaResponse";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class CalculoFechaInversionService {
   constructor(private http: HttpClient, private auth: AuthService) {
   }
 
-  calcularFechaInversion(request: CalculoFechaRequest): Observable<void> {
+  calcularFechaInversion(request: CalculoFechaRequest): Observable<CalculoFechaResponse> {
     const headers = new HttpHeaders({
 
       'authorization': `Bearer ${this.auth.getToken()}`
