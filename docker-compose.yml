@@ -6,8 +6,9 @@ services:
     container_name: django_backend
     command: >
       sh -c "pip install -r requirements.txt &&
-             python manage.py showmigrations
+             python manage.py showmigrations &&
              python manage.py migrate &&
+             echo \"from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('alpha', 'alpha@example.com', 'alpha123@') if not User.objects.filter(username='alpha').exists() else None\" | python manage.py shell &&
              python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./APIProject:/app
