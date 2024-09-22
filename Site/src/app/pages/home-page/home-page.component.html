@@ -1,0 +1,56 @@
+<div class="home-container">
+  <h2>Formulario de Productos</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="producto">Producto</label>
+      <select
+        id="producto"
+        [(ngModel)]="selectedProducto"
+        name="producto"
+        class="form-control"
+        required
+      >
+        <option *ngFor="let producto of productos" [value]="producto">
+          {{ producto }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="enReinversion">En Reinvención</label>
+      <input
+        type="checkbox"
+        id="enReinversion"
+        [(ngModel)]="enReinversion"
+        name="enReinversion"
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="plazo">Plazo</label>
+      <input
+        type="number"
+        id="plazo"
+        [(ngModel)]="plazo"
+        name="plazo"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="fechaCreacion">Fecha de Creación</label>
+      <input
+        type="date"
+        id="fechaCreacion"
+        [(ngModel)]="fechaCreacion"
+        name="fechaCreacion"
+        class="form-control"
+        required
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enviar</button>
+  </form>
+</div>
