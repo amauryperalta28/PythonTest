@@ -65,6 +65,17 @@ Sigue estos pasos para poner el proyecto en funcionamiento:
    ```
 
 ## Como correr las pruebas
+ ### Activa el entorno virtual 
+   En windows
+   ```bash
+   venv-pythontest\Scripts\activate
+   ```
+
+   En macOS y Linux:
+   ```bash
+   source venv-pythontest/bin/activate
+   ```
+
 Dentro de la carpeta **APIProject**, correr el comando
 ```bash
 python manage.py test
